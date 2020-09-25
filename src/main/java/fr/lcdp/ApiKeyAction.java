@@ -1,17 +1,11 @@
 package fr.lcdp;
 
-import models.Client;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
-import security.SecurityHelper;
-import service.CaptchaService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 

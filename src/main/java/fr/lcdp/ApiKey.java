@@ -1,7 +1,7 @@
 package fr.lcdp;
 
-import be.objectify.deadbolt.java.actions.Deferrable;
 import play.mvc.With;
+
 
 import java.lang.annotation.*;
 
@@ -10,7 +10,6 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Documented
 @Inherited
-@Deferrable
 public @interface ApiKey
 {
 
