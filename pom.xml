@@ -29,4 +29,12 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <repository>
+            <id>lecomptoirdespharmacies.repo</id>
+            <name>Le Comptoir Des Pharmacies Repository</name>
+            <url>git:releases://git@bitbucket.org:lecomptoirdespharmacies/maven_repository.git</url>
+        </repository>
+    </distributionManagement>
+
 </project>
