@@ -1,1 +1,0 @@
-# lcdp-captcha-java

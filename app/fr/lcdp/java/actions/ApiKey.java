@@ -1,7 +1,6 @@
-package fr.lcdp;
+package fr.lcdp.java.actions;
 
 import play.mvc.With;
-
 
 import java.lang.annotation.*;
 
@@ -12,5 +11,7 @@ import java.lang.annotation.*;
 @Inherited
 public @interface ApiKey
 {
+    String keyLocation() default "";
 
+    String keyName() default "";
 }
