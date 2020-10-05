@@ -7,7 +7,10 @@ scalaVersion := "2.11.12"
 
 lazy val `lcdp-captcha-java` = (project in file(".")).enablePlugins(PlayJava)
 
-libraryDependencies ++= Seq( cache , javaWs )
+libraryDependencies ++= Seq(
+  cache,
+  javaWs,
+"be.objectify" %% "deadbolt-java" % "2.5.8-SNAPSHOT"
+)
 
-// disable using the Scala version in output paths and artifacts
 crossPaths := false

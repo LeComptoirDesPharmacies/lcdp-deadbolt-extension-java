@@ -1,5 +1,5 @@
-publishMavenStyle := true
 
+publishMavenStyle := true
 
 publishTo := {
   val jfrog = "https://lcdp.jfrog.io/artifactory/"

@@ -1,33 +1,37 @@
 package fr.lcdp.java.actions;
 
+import be.objectify.deadbolt.java.actions.AbstractDeadboltAction;
+import be.objectify.deadbolt.java.cache.HandlerCache;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.NotImplementedException;
-import play.mvc.Action;
+import play.Configuration;
 import play.mvc.Http;
 import play.mvc.Result;
 
 import javax.inject.Inject;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
-public class ApiKeyAction extends Action<ApiKey> {
+public class ApiKeyAction extends AbstractDeadboltAction<ApiKey> {
 
     private final CaptchaHandler captchaHandler;
 
     @Inject
-    public ApiKeyAction(CaptchaHandler captchaHandler) {
+    public ApiKeyAction(HandlerCache handlerCache, Configuration config, CaptchaHandler captchaHandler) {
+        super(handlerCache, config);
         this.captchaHandler = captchaHandler;
     }
 
-    public ApiKeyAction(CaptchaHandler captchaHandler,
+    public ApiKeyAction(HandlerCache handlerCache, Configuration config, CaptchaHandler captchaHandler,
                         final ApiKey apiKey) {
-        this(captchaHandler);
+        super(handlerCache, config);
+        this.captchaHandler = captchaHandler;
         this.configuration = apiKey;
     }
 
     @Override
-    public CompletionStage<Result> call(Http.Context context) {
+    public CompletionStage<Result> execute(Http.Context context) throws Exception {
 
         String recaptchaToken = null;
         if(this.configuration.keyLocation().equals("header")){
@@ -36,10 +40,14 @@ public class ApiKeyAction extends Action<ApiKey> {
             throw new NotImplementedException("This key location is not implemented yet");
         }
 
-        if(!this.captchaHandler.isCaptchaTokenValid(context, recaptchaToken))
-            return CompletableFuture.completedFuture(forbidden());
+        if(!this.captchaHandler.isCaptchaTokenValid(context, recaptchaToken)) {
+            return this.unauthorizeAndFail(
+                    context,
+                    this.getDeadboltHandler(configuration.handlerKey()), Optional.empty()
+            );
+        }
 
-        return delegate.call(context);
+        return this.authorizeAndExecute(context);
     }
 
     /**
