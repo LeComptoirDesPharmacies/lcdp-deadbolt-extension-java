@@ -1,11 +1,11 @@
 
 organization := "fr.lcdp"
-name := "lcdp-captcha-java"
+name := "lcdp-deadbolt-extension-java"
 
 version := "1.0.1-SNAPSHOT"
 scalaVersion := "2.11.12"
 
-lazy val `lcdp-captcha-java` = (project in file(".")).enablePlugins(PlayJava)
+lazy val `lcdp-deadbolt-extension-java` = (project in file(".")).enablePlugins(PlayJava)
 
 libraryDependencies ++= Seq(
   cache,
