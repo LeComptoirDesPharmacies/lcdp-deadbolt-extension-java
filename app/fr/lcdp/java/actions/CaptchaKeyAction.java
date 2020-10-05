@@ -13,18 +13,18 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
-public class ApiKeyAction extends AbstractDeadboltAction<ApiKey> {
+public class CaptchaKeyAction extends AbstractDeadboltAction<CaptchaKey> {
 
     private final CaptchaHandler captchaHandler;
 
     @Inject
-    public ApiKeyAction(HandlerCache handlerCache, Configuration config, CaptchaHandler captchaHandler) {
+    public CaptchaKeyAction(HandlerCache handlerCache, Configuration config, CaptchaHandler captchaHandler) {
         super(handlerCache, config);
         this.captchaHandler = captchaHandler;
     }
 
-    public ApiKeyAction(HandlerCache handlerCache, Configuration config, CaptchaHandler captchaHandler,
-                        final ApiKey apiKey) {
+    public CaptchaKeyAction(HandlerCache handlerCache, Configuration config, CaptchaHandler captchaHandler,
+                            final CaptchaKey apiKey) {
         super(handlerCache, config);
         this.captchaHandler = captchaHandler;
         this.configuration = apiKey;

@@ -5,12 +5,12 @@ import play.mvc.With;
 
 import java.lang.annotation.*;
 
-@With(ApiKeyAction.class)
+@With(CaptchaKeyAction.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Documented
 @Inherited
-public @interface ApiKey
+public @interface CaptchaKey
 {
     String keyLocation() default "";
 
