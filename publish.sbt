@@ -8,3 +8,5 @@ publishTo := {
   else
     Some("Artifactory Realm"  at jfrog + "sbt-release")
 }
+
+credentials += Credentials(Path.userHome / ".sbt" / ".credentials")
