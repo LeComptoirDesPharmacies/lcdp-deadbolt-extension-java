@@ -1,11 +1,11 @@
 
 organization := "fr.lcdp"
-name := "lcdp-deadbolt-extension-java"
+name := "deadbolt-java-extension"
 
 version := "1.0.0"
 scalaVersion := "2.11.12"
 
-lazy val `lcdp-deadbolt-extension-java` = (project in file(".")).enablePlugins(PlayJava)
+lazy val `deadbolt-java-extension` = (project in file(".")).enablePlugins(PlayJava)
 
 libraryDependencies ++= Seq(
   cache,
