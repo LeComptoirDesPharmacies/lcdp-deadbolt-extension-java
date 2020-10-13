@@ -2,7 +2,7 @@
 organization := "fr.lcdp"
 name := "deadbolt-java-extension"
 
-version := "1.0.0"
+version := "1.0.1"
 scalaVersion := "2.11.12"
 
 lazy val `deadbolt-java-extension` = (project in file(".")).enablePlugins(PlayJava)
