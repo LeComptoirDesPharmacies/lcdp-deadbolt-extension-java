@@ -1,16 +1,16 @@
-package fr.lcdp.java.actions;
+package fr.lcdp.deadbolt.java.actions;
 
 import be.objectify.deadbolt.java.ConfigKeys;
 import play.mvc.With;
 
 import java.lang.annotation.*;
 
-@With(CaptchaKeyAction.class)
+@With(ApiKeyAction.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Documented
 @Inherited
-public @interface CaptchaKey
+public @interface ApiKey
 {
     String keyLocation() default "";
 

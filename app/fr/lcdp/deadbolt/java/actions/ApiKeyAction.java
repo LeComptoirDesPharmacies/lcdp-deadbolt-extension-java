@@ -1,4 +1,4 @@
-package fr.lcdp.java.actions;
+package fr.lcdp.deadbolt.java.actions;
 
 import be.objectify.deadbolt.java.actions.AbstractDeadboltAction;
 import be.objectify.deadbolt.java.cache.HandlerCache;
@@ -13,34 +13,34 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
-public class CaptchaKeyAction extends AbstractDeadboltAction<CaptchaKey> {
+public class ApiKeyAction extends AbstractDeadboltAction<ApiKey> {
 
-    private final CaptchaHandler captchaHandler;
+    private final ApiKeyHandler apiKeyHandler;
 
     @Inject
-    public CaptchaKeyAction(HandlerCache handlerCache, Configuration config, CaptchaHandler captchaHandler) {
+    public ApiKeyAction(HandlerCache handlerCache, Configuration config, ApiKeyHandler apiKeyHandler) {
         super(handlerCache, config);
-        this.captchaHandler = captchaHandler;
+        this.apiKeyHandler = apiKeyHandler;
     }
 
-    public CaptchaKeyAction(HandlerCache handlerCache, Configuration config, CaptchaHandler captchaHandler,
-                            final CaptchaKey apiKey) {
+    public ApiKeyAction(HandlerCache handlerCache, Configuration config, ApiKeyHandler apiKeyHandler,
+                        final ApiKey apiKey) {
         super(handlerCache, config);
-        this.captchaHandler = captchaHandler;
+        this.apiKeyHandler = apiKeyHandler;
         this.configuration = apiKey;
     }
 
     @Override
     public CompletionStage<Result> execute(Http.Context context) throws Exception {
 
-        String recaptchaToken = null;
+        String apiKey = null;
         if(this.configuration.keyLocation().equals("header")){
-            recaptchaToken = this.extractHeaderCaptchaToken(context.request().headers(), this.configuration.keyName());
+            apiKey = this.extractHeaderApiKey(context.request().headers(), this.configuration.keyName());
         }else{
             throw new NotImplementedException("This key location is not implemented yet");
         }
 
-        if(!this.captchaHandler.isCaptchaTokenValid(context, recaptchaToken)) {
+        if(!this.apiKeyHandler.isValid(context, apiKey)) {
             return this.unauthorizeAndFail(
                     context,
                     this.getDeadboltHandler(configuration.handlerKey()), Optional.empty()
@@ -55,12 +55,12 @@ public class CaptchaKeyAction extends AbstractDeadboltAction<CaptchaKey> {
      * @param headers Request headers
      * @param keyName Key name
      *
-     * @return if found return captcha token, else return null
+     * @return if found return api key, else return null
      */
-    public String extractHeaderCaptchaToken(Map<String, String[]> headers, String keyName) {
-        String[] recaptchaToken = headers.getOrDefault(keyName, null);
-        if (ArrayUtils.isNotEmpty(recaptchaToken)) {
-            return recaptchaToken[0];
+    public String extractHeaderApiKey(Map<String, String[]> headers, String keyName) {
+        String[] apiKey = headers.getOrDefault(keyName, null);
+        if (ArrayUtils.isNotEmpty(apiKey)) {
+            return apiKey[0];
         }
         return null;
     }
