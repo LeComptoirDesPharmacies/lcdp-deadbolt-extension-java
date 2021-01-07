@@ -14,6 +14,6 @@ resolvers += "Artifactory prod" at "https://lcdp.jfrog.io/artifactory/sbt-releas
 
 resolvers += Resolver.mavenLocal
 
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.5.8")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.8.7")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-web" % "1.2.2")
+addSbtPlugin("com.typesafe.sbt" % "sbt-web" % "1.4.4")
