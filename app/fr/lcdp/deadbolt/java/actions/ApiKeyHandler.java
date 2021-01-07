@@ -4,5 +4,5 @@ import play.mvc.Http;
 
 public interface ApiKeyHandler {
 
-    Boolean isValid(Http.Context context, String apiKey);
+    Boolean isValid(Http.RequestHeader request, String apiKey);
 }

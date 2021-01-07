@@ -1,10 +1,9 @@
 package fr.lcdp.deadbolt.java.actions;
 
 import be.objectify.deadbolt.java.actions.AbstractDeadboltAction;
+import be.objectify.deadbolt.java.cache.BeforeAuthCheckCache;
 import be.objectify.deadbolt.java.cache.HandlerCache;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.NotImplementedException;
-import play.Configuration;
+import fr.lcdp.deadbolt.java.exceptions.NotImplementedException;
 import play.mvc.Http;
 import play.mvc.Result;
 
@@ -12,42 +11,54 @@ import javax.inject.Inject;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
+import com.typesafe.config.Config;
 
 public class ApiKeyAction extends AbstractDeadboltAction<ApiKey> {
 
     private final ApiKeyHandler apiKeyHandler;
 
     @Inject
-    public ApiKeyAction(HandlerCache handlerCache, Configuration config, ApiKeyHandler apiKeyHandler) {
-        super(handlerCache, config);
+    public ApiKeyAction(final HandlerCache handlerCache,
+                        final BeforeAuthCheckCache beforeAuthCheckCache,
+                        final Config config,
+                        ApiKeyHandler apiKeyHandler) {
+        super(handlerCache, beforeAuthCheckCache, config);
         this.apiKeyHandler = apiKeyHandler;
-    }
-
-    public ApiKeyAction(HandlerCache handlerCache, Configuration config, ApiKeyHandler apiKeyHandler,
-                        final ApiKey apiKey) {
-        super(handlerCache, config);
-        this.apiKeyHandler = apiKeyHandler;
-        this.configuration = apiKey;
     }
 
     @Override
-    public CompletionStage<Result> execute(Http.Context context) throws Exception {
+    public CompletionStage<Result> execute(final Http.RequestHeader request) {
 
         String apiKey = null;
         if(this.configuration.keyLocation().equals("header")){
-            apiKey = this.extractHeaderApiKey(context.request().headers(), this.configuration.keyName());
+            apiKey = this.extractHeaderApiKey(request.getHeaders(), this.configuration.keyName());
         }else{
             throw new NotImplementedException("This key location is not implemented yet");
         }
 
-        if(!this.apiKeyHandler.isValid(context, apiKey)) {
+        if(!this.apiKeyHandler.isValid(request, apiKey)) {
             return this.unauthorizeAndFail(
-                    context,
+                    request,
                     this.getDeadboltHandler(configuration.handlerKey()), Optional.empty()
             );
         }
 
-        return this.authorizeAndExecute(context);
+        return this.authorizeAndExecute(request);
+    }
+
+    @Override
+    protected boolean deferred() {
+        return configuration.deferred();
+    }
+
+    @Override
+    public Optional<String> getContent() {
+        return Optional.ofNullable(configuration.content());
+    }
+
+    @Override
+    public String getHandlerKey() {
+        return configuration.handlerKey();
     }
 
     /**
@@ -57,11 +68,7 @@ public class ApiKeyAction extends AbstractDeadboltAction<ApiKey> {
      *
      * @return if found return api key, else return null
      */
-    public String extractHeaderApiKey(Map<String, String[]> headers, String keyName) {
-        String[] apiKey = headers.getOrDefault(keyName, null);
-        if (ArrayUtils.isNotEmpty(apiKey)) {
-            return apiKey[0];
-        }
-        return null;
+    private String extractHeaderApiKey(Http.Headers headers, String keyName) {
+        return headers.get(keyName).orElse(null);
     }
 }
