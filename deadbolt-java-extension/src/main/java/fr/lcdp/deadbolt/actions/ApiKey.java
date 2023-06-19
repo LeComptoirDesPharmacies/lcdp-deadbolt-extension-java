@@ -1,4 +1,4 @@
-package fr.lcdp.deadbolt.java.actions;
+package fr.lcdp.deadbolt.actions;
 
 import be.objectify.deadbolt.java.Constants;
 import be.objectify.deadbolt.java.DeadboltHandler;
