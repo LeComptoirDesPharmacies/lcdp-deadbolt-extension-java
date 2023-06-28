@@ -1,4 +1,4 @@
-package fr.lcdp.deadbolt.java.actions;
+package fr.lcdp.deadbolt.actions;
 
 import play.mvc.Http;
 

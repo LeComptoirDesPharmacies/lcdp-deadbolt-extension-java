@@ -1,14 +1,13 @@
-package fr.lcdp.deadbolt.java.actions;
+package fr.lcdp.deadbolt.actions;
 
 import be.objectify.deadbolt.java.actions.AbstractDeadboltAction;
 import be.objectify.deadbolt.java.cache.BeforeAuthCheckCache;
 import be.objectify.deadbolt.java.cache.HandlerCache;
-import fr.lcdp.deadbolt.java.exceptions.NotImplementedException;
+import fr.lcdp.deadbolt.exceptions.NotImplementedException;
 import play.mvc.Http;
 import play.mvc.Result;
 
 import javax.inject.Inject;
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 import com.typesafe.config.Config;

@@ -1,4 +1,4 @@
-package fr.lcdp.deadbolt.java.exceptions;
+package fr.lcdp.deadbolt.exceptions;
 
 public class NotImplementedException extends RuntimeException {
     public NotImplementedException(String message) {
